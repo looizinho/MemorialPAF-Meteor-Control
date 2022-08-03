@@ -28,3 +28,5 @@ blaze-hot               # Update files using Blaze's API with HMR
 less
 http
 cleandersonlobo:mdi-icons
+jabbslad:basic-auth
+underscore

@@ -10,9 +10,10 @@ const board = new Firmata("/dev/ttyACM0")
 var OscEmitter = require('osc-emitter')
 var emitterControl = new OscEmitter()
 var emitterPlayer = new OscEmitter()
+var emitterArd = new OscEmitter()
 
 
-var devMode = { enabled: true, address: '127.0.0.1' }
+var devMode = { enabled: false, address: '192.168.2.166' }
 
 var pin2Time = 0
 var pin2Lock = false
@@ -43,13 +44,14 @@ board.on("ready", () => {
       }
       else {
         let time = (new Date().valueOf() - pin2Time)
+        emitterArd.add('192.168.2.37', 3737)
         if (time > 200 && time < 3000) {
           // console.log('/portugues')
-          // emitter.emit('/portugues', 1)
+          emitterArd.emit('/portugues', 1)
         }
         if (time > 3001) {
           // console.log('/ingles')
-          // emitter.emit('/ingles', 1)
+          emitterArd.emit('/ingles', 1)
         }
         console.log(time)
         pin2Time = 0

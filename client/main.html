@@ -1,58 +1,64 @@
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memorial PAF</title>
+  <title>PAF Control</title>
 </head>
 
 <body>
-  {{> container}}
+  {{> content}}
 </body>
 
-<template name="container">
-  <div class="container" id="container">
-    <h1>{{screen}}</h1>
-    {{> decks}}
-    {{> language}}
-    {{> tools}}
+<template name="content">
+  <div class="content">
+    {{> header}}
+    {{> blocks}}
   </div>
 </template>
 
-<template name="decks">
-  <div class="decks {{#if appState.locked}}no-click alpha{{/if}}">
-    {{#each deckItems}}
-    <div id="{{name}}" name="deckItem" class="deck column-3  animate__animated animate__zoomIn">
-      <h3 class="title">{{title}}</h3>
-      <button class="buttonPlay" name="play">PLAY</button>
-      <button class="buttonLoop" name="loop">LOOP</button>
-      <button class="buttonStop" name="stop">STOP</button>
-      <div class="status">Status: {{status}}</div>
+<template name="header">
+  <div class="header">
+    <h1>Memorial PAF - Controle</h1>
+  </div>
+</template>
+
+<template name="blocks">
+  <div class="blocks">
+    {{> oPedro}}
+    {{> linhaDoTempo}}
+    {{> multipliqueSe}}
+  </div>
+</template>
+
+<template name="oPedro">
+  <div class="block">
+    <div class="block-title">
+      O Pedro
     </div>
-    {{/each}}
+    <div class="block-buttons">
+      <button class="block-button btn-portugues" id="pedroPt">{{txtPt}}</button>
+      <button class="block-button btn-ingles" id="pedroEn">{{txtEn}}</button>
+    </div>
   </div>
 </template>
 
-<template name="language">
-  <div class="language {{#if appState.locked}}no-click alpha{{/if}}" id="language">
-    {{#if isPort state.activeLang}}
-    <button id="port" class="column-2 active animate__animated animate__flash">PORTUGUÊS</button>
-    <button id="eng" class="column-2">INGLÊS</button>
-    {{else}}
-    <button id="port" class="column-2">PORTUGUÊS</button>
-    <button id="eng" class="column-2 active animate__animated animate__flash">INGLÊS</button>
-    {{/if}}
+<template name="linhaDoTempo">
+  <div class="block">
+    <div class="block-title">
+      Linha do Tempo
+    </div>
+    <div class="block-buttons">
+      <button class="block-button btn-portugues" id="linhaPt">{{txtPt}}</button>
+      <button class="block-button btn-ingles" id="linhaEn">{{txtEn}}</button>
+    </div>
   </div>
 </template>
 
-<template name="tools">
-  <div class="tools">
-  <div id="clock" class="{{#if appState.locked}}clock-lock{{else}}clock-unlock{{/if}}" onload="showTime()"></div>
-    <div class="lock">
-      {{#if state.locked}}
-      <span class="locked-msg">INTERFACE BLOQUEADA</span> <button id="unlock"
-        class="locked animate__animated animate__flash"><i class="mdi mdi-lock no-click"></i></button>
-      {{else}}
-      <button id="lock" class="unlocked animate__animated animate__fadeIn"><i
-          class="mdi mdi-lock no-click"></i></button>
-      {{/if}}
+<template name="multipliqueSe">
+  <div class="block">
+    <div class="block-title">
+      Multiplique-se
+    </div>
+    <div class="block-buttons">
+      <button class="block-button btn-portugues" id="multiPt">{{txtPt}}</button>
+      <button class="block-button btn-ingles" id="multiEn">{{txtEn}}</button>
     </div>
   </div>
 </template>

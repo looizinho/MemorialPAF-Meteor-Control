@@ -185,10 +185,10 @@ Meteor.methods({
     // console.log(msg);
     if (msg === 'pedroPt') {
       console.log('REMOTE ==> PEDRO PT');
-      emitterArdPedro.add('192.168.2.100', 7400);
-		emitterArdPedro.emit('/audio', 1)
-		emitterArdPedro.emit('/lin', 1)
-		emitterArdPedro.emit('/play', 1)
+      emitterTablet.add('192.168.2.100', 7400);
+		emitterTablet.emit('/audio', 1)
+		emitterTablet.emit('/lin', 1)
+		emitterTablet.emit('/play', 1)
     }
     else if (msg === 'pedroEn') {
       console.log('REMOTE ==> PEDRO EN');

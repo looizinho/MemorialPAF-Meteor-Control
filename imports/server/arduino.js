@@ -1,7 +1,7 @@
 const Firmata = require("firmata")
 const boardLinha = new Firmata("/dev/ttyACM0")
-const boardPedro = new Firmata("/dev/ttyACM1")
-const boardMulti = new Firmata("/dev/ttyACM2")
+const boardPedro = new Firmata("/dev/ttyACM2")
+const boardMulti = new Firmata("/dev/ttyACM1")
 
 var OscEmitter = require('osc-emitter')
 var emitterArdPedro = new OscEmitter()

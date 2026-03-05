@@ -1,0 +1,43 @@
+{
+  "name": "@paf/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:frontend": "vite",
+    "dev:backend": "tsx src/backend/server.ts",
+    "build": "npm run build:frontend",
+    "build:frontend": "vite build",
+    "test": "vitest run",
+    "lint": "echo 'lint placeholder'",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.2",
+    "@fastify/websocket": "^11.0.2",
+    "@paf/core": "0.1.0",
+    "@paf/protocols": "0.1.0",
+    "fastify": "^5.2.1",
+    "osc-emitter": "^1.0.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "serialport": "^13.0.0",
+    "firmata-io": "^2.3.0",
+    "ws": "^8.18.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.2.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "tsx": "^4.19.3",
+    "vite": "^6.1.1",
+    "vitest": "^2.1.8"
+  }
+}

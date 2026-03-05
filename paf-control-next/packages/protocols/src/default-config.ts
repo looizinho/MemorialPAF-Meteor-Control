@@ -1,0 +1,89 @@
+import type { RuntimeConfig } from "./types";
+
+export const defaultRuntimeConfig: RuntimeConfig = {
+  schemaVersion: 1,
+  state: {
+    version: 1,
+    idleMode: true,
+    activeLang: "port",
+    activeDeck: "",
+    locked: false,
+    updatedAt: Date.now()
+  },
+  decks: [
+    {
+      name: "pedro",
+      title: "O Pedro",
+      player: {
+        enabled: true,
+        address: "192.168.2.100",
+        port: 7400,
+        commands: {
+          port: [
+            { msg: "/audio", arg: 1 },
+            { msg: "/lin", arg: 1 },
+            { msg: "/play", arg: 1 }
+          ],
+          eng: [
+            { msg: "/audio", arg: 1 },
+            { msg: "/lin", arg: 0 },
+            { msg: "/play", arg: 1 }
+          ]
+        }
+      },
+      controller: {
+        enabled: true,
+        address: "192.168.2.62",
+        port: 6262,
+        message: "/light",
+        arg: 1
+      }
+    },
+    {
+      name: "timeline",
+      title: "Linha do Tempo",
+      player: {
+        enabled: true,
+        address: "192.168.2.37",
+        port: 3737,
+        commands: {
+          port: [
+            { msg: "/reset", arg: 1 },
+            { msg: "/portugues", arg: 1 }
+          ],
+          eng: [
+            { msg: "/reset", arg: 1 },
+            { msg: "/ingles", arg: 1 }
+          ]
+        }
+      },
+      controller: {
+        enabled: true,
+        address: "192.168.2.61",
+        port: 6161,
+        message: "/light",
+        arg: 1
+      }
+    },
+    {
+      name: "multi",
+      title: "Multiplique-se",
+      player: {
+        enabled: true,
+        address: "192.168.2.5",
+        port: 7000,
+        commands: {
+          port: [{ msg: "/composition/columns/2/connect", arg: 1 }],
+          eng: [{ msg: "/composition/columns/3/connect", arg: 1 }]
+        }
+      },
+      controller: {
+        enabled: false,
+        address: "",
+        port: 0,
+        message: "",
+        arg: 0
+      }
+    }
+  ]
+};

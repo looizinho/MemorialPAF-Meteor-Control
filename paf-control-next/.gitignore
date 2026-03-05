@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log*
+.DS_Store
+dist
+coverage
+apps/desktop/src-tauri/target
+apps/desktop/src-tauri/gen
+apps/desktop/data/*.local.json

@@ -16,9 +16,8 @@ if (!devMode.enabled) {
 }
 
 Meteor.startup(() => {
-
-  if (Configs.find().count() === 0) {
-    console.log('Config está vazio!')
+  if (Configs.find().countAsync() === 0) {
+    console.log('Config está vazio!') 
 
     import '../imports/both/collections/defaultconfig'
 
@@ -30,7 +29,7 @@ Meteor.startup(() => {
   }
   else { console.log('Config localizada!') }
 
-  if (State.find().count() === 0) {
+  if (State.find().countAsync() === 0) {
     console.log('Sem estado definidoo!')
     let systemState = JSON.parse(Assets.getText('defaultconfig.json'));
 

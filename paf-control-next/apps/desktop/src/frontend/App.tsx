@@ -2,70 +2,89 @@ import { DeckCard } from "./components/DeckCard";
 import { useControlApi } from "./hooks/useControlApi";
 
 export function App() {
-  const { state, health, uiStatus, lastCommand, lastError, sendCommand, toggleLock, setLanguage } = useControlApi();
+  const { state, uiStatus, lastCommand, lastError, sendCommand, toggleLock, setLanguage } = useControlApi();
+
+  const message = lastError
+    ? "Nao foi possivel enviar o comando. Tente novamente."
+    : uiStatus === "ok"
+      ? "Comando enviado com sucesso."
+      : state?.locked
+        ? "Painel bloqueado. Toque em desbloquear para operar."
+        : "Painel pronto para operacao.";
 
   return (
-    <main className="app-shell">
-      <section className="hero">
-        <div>
-          <p className="hero__kicker">PAF CONTROL NEXT</p>
-          <h1>Central de Automacao da Instalacao</h1>
-          <p className="hero__subtitle">
-            Migracao de operacao para desktop local com comandos OSC/Serial e monitoramento em tempo real.
-          </p>
-        </div>
-        <div className="hero__controls">
-          <button className="ghost-btn" onClick={() => void setLanguage("port")}>Portugues</button>
-          <button className="ghost-btn" onClick={() => void setLanguage("eng")}>Ingles</button>
-          <button className="lock-btn" onClick={() => void toggleLock()}>
-            {state?.locked ? "Desbloquear" : "Bloquear"}
+    <main className="operation-page">
+      <div className="background-shape background-shape--a" />
+      <div className="background-shape background-shape--b" />
+
+      <section className="console-panel">
+        <header className="console-header">
+          <div>
+            <p className="console-header__eyebrow">PAINEL DE CONTROLE</p>
+            <h1>Instalacoes Interativas</h1>
+            <p className="console-header__description">Toque na instalacao e escolha o idioma para disparar o conteudo.</p>
+          </div>
+
+          <div className="console-header__actions">
+            <div className="language-switch" role="group" aria-label="Idioma principal">
+              <button className={state?.activeLang === "port" ? "is-active" : ""} onClick={() => void setLanguage("port")}>
+                Portugues
+              </button>
+              <button className={state?.activeLang === "eng" ? "is-active" : ""} onClick={() => void setLanguage("eng")}>
+                Ingles
+              </button>
+            </div>
+            <button className="lock-toggle" onClick={() => void toggleLock()}>
+              {state?.locked ? "Desbloquear" : "Bloquear"}
+            </button>
+          </div>
+        </header>
+
+        <section className="decks-grid" aria-label="Instalacoes">
+          <DeckCard
+            title="Totem Entrada"
+            note="Video legendado"
+            primaryLabel="INICIAR"
+            disabled
+            onSend={sendCommand}
+          />
+          <DeckCard
+            title="O Pedro"
+            primaryLabel="PORTUGUES"
+            primaryCommand="pedroPt"
+            secondaryLabel="INGLES"
+            secondaryCommand="pedroEn"
+            disabled={state?.locked}
+            onSend={sendCommand}
+          />
+          <DeckCard
+            title="Linha do Tempo"
+            primaryLabel="PORTUGUES"
+            primaryCommand="linhaPt"
+            secondaryLabel="INGLES"
+            secondaryCommand="linhaEn"
+            disabled={state?.locked}
+            onSend={sendCommand}
+          />
+          <DeckCard
+            title="Multiplique-se"
+            primaryLabel="PORTUGUES"
+            primaryCommand="multiPt"
+            secondaryLabel="INGLES"
+            secondaryCommand="multiEn"
+            disabled={state?.locked}
+            onSend={sendCommand}
+          />
+        </section>
+
+        <footer className="console-footer" aria-live="polite">
+          <p className={lastError ? "is-error" : ""}>{message}</p>
+          <p>Ultimo comando: {lastCommand ?? "nenhum"}</p>
+          <button className="diagnostic-button" type="button" disabled>
+            Diagnostico e avancado
           </button>
-        </div>
+        </footer>
       </section>
-
-      <section className="status-grid">
-        <div className="status-card">
-          <span>Modo Hardware</span>
-          <strong>{health?.mode ?? "..."}</strong>
-        </div>
-        <div className="status-card">
-          <span>OSC</span>
-          <strong>{health?.osc ?? "..."}</strong>
-        </div>
-        <div className="status-card">
-          <span>Serial</span>
-          <strong>{health?.serial ?? "..."}</strong>
-        </div>
-        <div className="status-card">
-          <span>Status UI</span>
-          <strong>{uiStatus}</strong>
-        </div>
-      </section>
-
-      <section className="decks-grid">
-        <DeckCard title="O Pedro" commandPt="pedroPt" commandEn="pedroEn" disabled={state?.locked} onSend={sendCommand} />
-        <DeckCard
-          title="Linha do Tempo"
-          commandPt="linhaPt"
-          commandEn="linhaEn"
-          disabled={state?.locked}
-          onSend={sendCommand}
-        />
-        <DeckCard
-          title="Multiplique-se"
-          commandPt="multiPt"
-          commandEn="multiEn"
-          disabled={state?.locked}
-          onSend={sendCommand}
-        />
-      </section>
-
-      <footer className="ops-footer">
-        <p>Ultimo comando: {lastCommand ?? "nenhum"}</p>
-        <p>Idioma ativo: {state?.activeLang ?? "..."}</p>
-        <p>Deck ativo: {state?.activeDeck || "..."}</p>
-        {lastError && <p className="ops-error">Erro: {lastError}</p>}
-      </footer>
     </main>
   );
 }

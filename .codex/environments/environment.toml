@@ -12,3 +12,12 @@ command = '''
 cd paf-control-next
 npm run dev
 '''
+
+[[actions]]
+name = "Build and Run"
+icon = "tool"
+command = '''
+cd ./paf-control-next
+pnpm run build
+serve
+'''

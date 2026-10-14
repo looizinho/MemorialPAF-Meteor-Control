@@ -1,6 +1,14 @@
 <head>
   <title>PAF Control</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#110011">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PAF Control">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 </head>
 
 <body>
@@ -11,55 +19,36 @@
   <div class="content">
     {{> header}}
     {{> blocks}}
+    {{> idiomas}}
   </div>
 </template>
 
 <template name="header">
   <div class="header">
-    <h1>Memorial PAF - Controle</h1>
+    <img class="logo" src="/icons/logo-white.png" alt="">
+    <h1>Memorial <span class="paf-metal">PAF</span></h1>
   </div>
 </template>
 
 <template name="blocks">
   <div class="blocks">
-    {{> oPedro}}
-    {{> linhaDoTempo}}
-    {{> multipliqueSe}}
+    <button class="block-button" id="pedro">O Pedro</button>
+    <button class="block-button" id="linha">Linha do Tempo</button>
+    <button class="block-button" id="multi">Multiplique-se</button>
   </div>
 </template>
 
-<template name="oPedro">
-  <div class="block">
-    <div class="block-title">
-      O Pedro
-    </div>
-    <div class="block-buttons">
-      <button class="block-button btn-portugues" id="pedroPt">{{txtPt}}</button>
-      <button class="block-button btn-ingles" id="pedroEn">{{txtEn}}</button>
-    </div>
-  </div>
-</template>
-
-<template name="linhaDoTempo">
-  <div class="block">
-    <div class="block-title">
-      Linha do Tempo
-    </div>
-    <div class="block-buttons">
-      <button class="block-button btn-portugues" id="linhaPt">{{txtPt}}</button>
-      <button class="block-button btn-ingles" id="linhaEn">{{txtEn}}</button>
-    </div>
-  </div>
-</template>
-
-<template name="multipliqueSe">
-  <div class="block">
-    <div class="block-title">
-      Multiplique-se
-    </div>
-    <div class="block-buttons">
-      <button class="block-button btn-portugues" id="multiPt">{{txtPt}}</button>
-      <button class="block-button btn-ingles" id="multiEn">{{txtEn}}</button>
-    </div>
+<template name="idiomas">
+  <div class="idiomas">
+    <button class="idioma-button {{selecionado 'Pt'}}" id="Pt">
+      <img class="bandeira bandeira-branca" src="/icons/portugues-white.png" alt="">
+      <img class="bandeira bandeira-preta" src="/icons/portugues-black.png" alt="">
+      Português
+    </button>
+    <button class="idioma-button {{selecionado 'En'}}" id="En">
+      <img class="bandeira bandeira-branca" src="/icons/ingles-white.png" alt="">
+      <img class="bandeira bandeira-preta" src="/icons/ingles-black.png" alt="">
+      Inglês
+    </button>
   </div>
 </template>

@@ -1,6 +1,15 @@
 <head>
   <title>PAF Control</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#110011">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PAF Control">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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">
 </head>
 
 <body>
@@ -11,55 +20,46 @@
   <div class="content">
     {{> header}}
     {{> blocks}}
+    {{> idiomas}}
+    {{> progresso}}
+  </div>
+</template>
+
+<template name="progresso">
+  <div class="progresso" aria-hidden="true">
+    <svg>
+      <rect class="progresso-trilho" width="100%" height="100%" rx="24" pathLength="100"></rect>
+      <rect class="progresso-barra" width="100%" height="100%" rx="24" pathLength="100"></rect>
+    </svg>
   </div>
 </template>
 
 <template name="header">
   <div class="header">
-    <h1>Memorial PAF - Controle</h1>
+    <img class="logo" src="/icons/logo-vector-red.svg" alt="">
+    <h1><span class="memorial">Memorial</span> <span class="paf-metal">PAF</span></h1>
   </div>
 </template>
 
 <template name="blocks">
   <div class="blocks">
-    {{> oPedro}}
-    {{> linhaDoTempo}}
-    {{> multipliqueSe}}
+    <button class="block-button {{ligado 'pedro'}}" id="pedro" aria-pressed="{{pressionado 'pedro'}}" {{bloqueio 'pedro'}}><span class="rotulo">O Pedro</span></button>
+    <button class="block-button {{ligado 'linha'}}" id="linha" aria-pressed="{{pressionado 'linha'}}" {{bloqueio 'linha'}}><span class="rotulo">Linha do Tempo</span></button>
+    <button class="block-button {{ligado 'multi'}}" id="multi" aria-pressed="{{pressionado 'multi'}}" {{bloqueio 'multi'}}><span class="rotulo">Multiplique-se</span></button>
   </div>
 </template>
 
-<template name="oPedro">
-  <div class="block">
-    <div class="block-title">
-      O Pedro
-    </div>
-    <div class="block-buttons">
-      <button class="block-button btn-portugues" id="pedroPt">{{txtPt}}</button>
-      <button class="block-button btn-ingles" id="pedroEn">{{txtEn}}</button>
-    </div>
-  </div>
-</template>
-
-<template name="linhaDoTempo">
-  <div class="block">
-    <div class="block-title">
-      Linha do Tempo
-    </div>
-    <div class="block-buttons">
-      <button class="block-button btn-portugues" id="linhaPt">{{txtPt}}</button>
-      <button class="block-button btn-ingles" id="linhaEn">{{txtEn}}</button>
-    </div>
-  </div>
-</template>
-
-<template name="multipliqueSe">
-  <div class="block">
-    <div class="block-title">
-      Multiplique-se
-    </div>
-    <div class="block-buttons">
-      <button class="block-button btn-portugues" id="multiPt">{{txtPt}}</button>
-      <button class="block-button btn-ingles" id="multiEn">{{txtEn}}</button>
-    </div>
+<template name="idiomas">
+  <div class="idiomas">
+    <button class="idioma-button {{selecionado 'Pt'}}" id="Pt">
+      <img class="bandeira bandeira-branca" src="/icons/portugues-white.png" alt="">
+      <img class="bandeira bandeira-preta" src="/icons/portugues-black.png" alt="">
+      Português
+    </button>
+    <button class="idioma-button {{selecionado 'En'}}" id="En">
+      <img class="bandeira bandeira-branca" src="/icons/ingles-white.png" alt="">
+      <img class="bandeira bandeira-preta" src="/icons/ingles-black.png" alt="">
+      Inglês
+    </button>
   </div>
 </template>

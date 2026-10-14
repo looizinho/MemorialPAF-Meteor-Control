@@ -44,18 +44,21 @@ a {
   color: antiquewhite;
 }
 
+// Tamanhos em vmin (1% do lado menor da tela) para a interface manter as
+// proporções do tablet oficial (1200 × 800, vmin = 8px) em qualquer tela,
+// com mínimos para celular e máximos para monitores grandes
 .content {
   margin: 0 auto;
   width: 100%;
-  max-width: 1004px;
   height: 100%;
-  padding: 0 10px 10px;
   // Instalado como PWA no iOS o conteúdo ocupa a tela toda (viewport-fit=cover),
-  // então desvia da barra de status, do notch e da barra de início
+  // então desvia da barra de status, do notch e da barra de início.
+  // As margens (28px nas laterais, 18px embaixo) abrem espaço para a borda de progresso.
   padding-top: env(safe-area-inset-top);
-  padding-right: ~"max(10px, env(safe-area-inset-right))";
-  padding-bottom: ~"max(10px, env(safe-area-inset-bottom))";
-  padding-left: ~"max(10px, env(safe-area-inset-left))";
+  padding-right: ~"max(28px, env(safe-area-inset-right))";
+  padding-bottom: ~"max(18px, env(safe-area-inset-bottom))";
+  padding-left: ~"max(28px, env(safe-area-inset-left))";
+  position: relative;
   display: flex;
   flex-direction: column;
   // border: 1px dashed red;
@@ -69,13 +72,59 @@ a {
     letter-spacing: 1px;
 
     .logo {
-      height: clamp(2rem, 6vw, 3rem);
+      height: clamp(2rem, 6.75vmin, 6rem);
       width: auto;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(1.2rem, 4vw, 2rem);
+      font-size: clamp(1.2rem, 4.75vmin, 5rem);
+
+      // Só "Memorial": o metal de "PAF" usa a cor do h1 como base
+      .memorial {
+        color: #F3BA58;
+        // Proporcional ao título, para continuar menor que "PAF" em qualquer tela
+        font-size: 0.75em;
+      }
+    }
+  }
+
+  // Borda de progresso do botão ligado, por cima de tudo e sem capturar toques
+  .progresso {
+    position: absolute;
+    top: ~"calc(env(safe-area-inset-top) + 8px)";
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    &.ativo {
+      opacity: 1;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    rect {
+      fill: none;
+      stroke-width: 4px;
+    }
+
+    .progresso-trilho {
+      stroke: rgba(46, 211, 107, 0.15);
+    }
+
+    .progresso-barra {
+      stroke: #2ed36b;
+      stroke-linecap: round;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
     }
   }
 
@@ -83,14 +132,26 @@ a {
     flex: 1;
     min-height: 0;
     display: flex;
-    align-items: stretch;
-    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    --espaco: clamp(20px, 5vmin, 80px);
+    gap: var(--espaco);
+    // Os botões se medem pelo espaço livre desta área (unidades cqw/cqh)
+    container-type: size;
+
+    // Deitado: três quadrados lado a lado, o maior tamanho que couber
+    .block-button {
+      flex: none;
+      aspect-ratio: 1;
+      // Escapado inteiro: o LESS resolveria o min() sozinho e descartaria o cqw
+      width: ~"min(100cqh, (100cqw - 2 * var(--espaco)) / 3)";
+    }
   }
 
   .idiomas {
     display: flex;
     gap: 20px;
-    margin-top: 20px;
+    margin: 30px 0 10px;
   }
 
   .block-button,
@@ -113,16 +174,36 @@ a {
   }
 
   .block-button {
-    border-radius: 20px;
+    border-radius: clamp(16px, 2.5vmin, 40px);
     text-transform: uppercase;
-    font-size: clamp(1.2rem, 3vw, 1.9em);
+    font-size: clamp(1.2rem, 3.8vmin, 4rem);
+
+    // Recebe a camada do border beam (client/border-beam.js)
+    position: relative;
+
+    // Disparado: o feixe acende e o botão ignora toques até ser liberado
+    &.ligado {
+      // Borda apagada para o feixe aparecer
+      border-color: rgba(255,255,255,0.15);
+      cursor: default;
+
+      .rotulo {
+        font-size: 1.25em;
+      }
+    }
+
+    // Outro botão está ligado
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
   }
 
   .idioma-button {
     border-color: grey;
     border-radius: 80px;
     color: grey;
-    height: 90px;
+    height: clamp(56px, 11.25vmin, 180px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,7 +223,7 @@ a {
     .bandeira-preta {
       display: none;
     }
-    font-size: clamp(1.1rem, 2.6vw, 1.9em);
+    font-size: clamp(1.1rem, 3.8vmin, 4rem);
 
     &.selecionado {
       border-color: white;
@@ -160,21 +241,29 @@ a {
   }
 }
 
-// Telas estreitas (celular em retrato): instalações empilhadas
-@media (max-width: 719px) {
+// Telas estreitas ou em pé (celular, tablet em retrato): instalações empilhadas
+@media (max-width: 719px), (orientation: portrait) {
   .content {
     .header h1 {
-      font-size: clamp(1.5rem, 7vw, 2rem);
+      font-size: clamp(1.5rem, 7vw, 3rem);
     }
 
+    // Em pé ou estreito: faixas empilhadas ocupando toda a área
     .blocks {
       flex-direction: column;
-      gap: 14px;
+      align-items: stretch;
+      --espaco: 28px;
+
+      .block-button {
+        flex: 1 1 0;
+        aspect-ratio: auto;
+        width: auto;
+      }
     }
 
     .idiomas {
       gap: 10px;
-      margin-top: 14px;
+      margin: 24px 0 10px;
     }
 
     .idioma-button {
@@ -192,7 +281,7 @@ a {
     }
 
     .idiomas {
-      margin-top: 10px;
+      margin: 16px 0 6px;
     }
 
     .idioma-button {

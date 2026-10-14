@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mockup TCL Tab A1 Plus</title>
+  <style>
+    /*
+      Mockup do painel no tablet oficial da instalação: TCL Tab A1 Plus 12,2"
+      (2400 × 1600 px, 3:2). O painel roda num iframe com o tamanho em CSS px
+      que o navegador do tablet enxerga (pixels físicos ÷ escala do Android),
+      e o conjunto é reduzido para caber na janela.
+      O iframe abre o painel com ?simulacao: os botões não enviam comandos.
+    */
+    :root {
+      --fundo: #1c1c1f;
+      --texto: #d8d8dc;
+      --apagado: #8a8a92;
+      --moldura: #0b0b0d;
+      --borda-moldura: #3a3a40;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+    }
+
+    body {
+      background: var(--fundo);
+      color: var(--texto);
+      font: 14px/1.4 system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 20px;
+      padding: 12px 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .controles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+
+    .grupo {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .grupo span {
+      color: var(--apagado);
+      margin-right: 4px;
+    }
+
+    button {
+      font: inherit;
+      color: var(--texto);
+      background: transparent;
+      border: 1px solid var(--borda-moldura);
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+
+    button[aria-pressed="true"] {
+      background: var(--texto);
+      color: var(--fundo);
+      border-color: var(--texto);
+    }
+
+    .medida {
+      color: var(--apagado);
+      font-variant-numeric: tabular-nums;
+    }
+
+    main {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    /* Tablet em tamanho real (CSS px), reduzido por transform para caber */
+    .tablet {
+      flex: none;
+      padding: 36px;
+      background: var(--moldura);
+      border: 2px solid var(--borda-moldura);
+      border-radius: 44px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      transform-origin: center;
+    }
+
+    iframe {
+      display: block;
+      border: 0;
+      border-radius: 6px;
+      background: #101;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TCL Tab A1 Plus 12,2" · 2400 × 1600</h1>
+    <div class="controles">
+      <div class="grupo" role="group" aria-label="Orientação">
+        <span>Orientação</span>
+        <button type="button" data-orientacao="deitado" aria-pressed="true">Deitado</button>
+        <button type="button" data-orientacao="em-pe" aria-pressed="false">Em pé</button>
+      </div>
+      <div class="grupo" role="group" aria-label="Escala do Android">
+        <span>Escala</span>
+        <button type="button" data-escala="2" aria-pressed="true">2×</button>
+        <button type="button" data-escala="1.5" aria-pressed="false">1,5×</button>
+      </div>
+    </div>
+    <span class="medida" id="medida"></span>
+  </header>
+
+  <main>
+    <div class="tablet" id="tablet">
+      <iframe id="painel" src="/?simulacao" title="Painel PAF Control"></iframe>
+    </div>
+  </main>
+
+  <script>
+    // Pixels físicos da tela do tablet, com ele deitado
+    const FISICO = { largura: 2400, altura: 1600 };
+
+    const estado = { orientacao: 'deitado', escala: 2 };
+    const tablet = document.getElementById('tablet');
+    const painel = document.getElementById('painel');
+    const medida = document.getElementById('medida');
+    const area = document.querySelector('main');
+
+    function atualizar() {
+      const deitado = estado.orientacao === 'deitado';
+      const largura = Math.round((deitado ? FISICO.largura : FISICO.altura) / estado.escala);
+      const altura = Math.round((deitado ? FISICO.altura : FISICO.largura) / estado.escala);
+
+      painel.style.width = largura + 'px';
+      painel.style.height = altura + 'px';
+      medida.textContent = `Navegador: ${largura} × ${altura} px`;
+
+      // Reduz o tablet inteiro (com moldura) para caber na área disponível
+      tablet.style.transform = 'none';
+      const caixa = area.getBoundingClientRect();
+      const margem = 32;
+      const reducao = Math.min(
+        1,
+        (caixa.width - margem) / tablet.offsetWidth,
+        (caixa.height - margem) / tablet.offsetHeight,
+      );
+      tablet.style.transform = `scale(${reducao})`;
+    }
+
+    document.querySelectorAll('[data-orientacao], [data-escala]').forEach((botao) => {
+      botao.addEventListener('click', () => {
+        const chave = botao.dataset.orientacao ? 'orientacao' : 'escala';
+        estado[chave] = botao.dataset.orientacao || Number(botao.dataset.escala);
+        botao.parentElement.querySelectorAll('button').forEach((b) => {
+          b.setAttribute('aria-pressed', String(b === botao));
+        });
+        atualizar();
+      });
+    });
+
+    window.addEventListener('resize', atualizar);
+    atualizar();
+  </script>
+</body>
+</html>

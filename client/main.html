@@ -13,8 +13,17 @@
 </head>
 
 <body>
+  {{> fundo}}
   {{> content}}
 </body>
+
+<template name="fundo">
+  <div class="fundo" aria-hidden="true">
+    <div class="bola"></div>
+    <div class="bola" style="--atraso: -12s; --tamanho: 0.35; --velocidade: 25s;"></div>
+    <div class="bola" style="--atraso: -10s; --tamanho: 0.3; --velocidade: 15s;"></div>
+  </div>
+</template>
 
 <template name="content">
   <div class="content">
